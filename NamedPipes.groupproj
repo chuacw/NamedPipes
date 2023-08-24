@@ -3,10 +3,10 @@
         <ProjectGuid>{32E6A795-19FB-4EE4-B2E3-F3A7005C7BCA}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="NamedPipeServer.dproj">
+        <Projects Include="Server\NamedPipeServer.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="NamedPipeClient.dproj">
+        <Projects Include="Client\NamedPipeClient.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -18,22 +18,22 @@
         </BorlandProject>
     </ProjectExtensions>
     <Target Name="NamedPipeServer">
-        <MSBuild Projects="NamedPipeServer.dproj"/>
+        <MSBuild Projects="Server\NamedPipeServer.dproj"/>
     </Target>
     <Target Name="NamedPipeServer:Clean">
-        <MSBuild Projects="NamedPipeServer.dproj" Targets="Clean"/>
+        <MSBuild Projects="Server\NamedPipeServer.dproj" Targets="Clean"/>
     </Target>
     <Target Name="NamedPipeServer:Make">
-        <MSBuild Projects="NamedPipeServer.dproj" Targets="Make"/>
+        <MSBuild Projects="Server\NamedPipeServer.dproj" Targets="Make"/>
     </Target>
     <Target Name="NamedPipeClient">
-        <MSBuild Projects="NamedPipeClient.dproj"/>
+        <MSBuild Projects="Client\NamedPipeClient.dproj"/>
     </Target>
     <Target Name="NamedPipeClient:Clean">
-        <MSBuild Projects="NamedPipeClient.dproj" Targets="Clean"/>
+        <MSBuild Projects="Client\NamedPipeClient.dproj" Targets="Clean"/>
     </Target>
     <Target Name="NamedPipeClient:Make">
-        <MSBuild Projects="NamedPipeClient.dproj" Targets="Make"/>
+        <MSBuild Projects="Client\NamedPipeClient.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
         <CallTarget Targets="NamedPipeServer;NamedPipeClient"/>
