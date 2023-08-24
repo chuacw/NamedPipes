@@ -1,19 +1,19 @@
 unit NamedPipeThreads;
 
 interface
-uses Classes, StdCtrls, NamedPipesImpl, DebugThreadSupport;
+uses Classes, StdCtrls, NamedPipesImpl;
 
 type
- TNamedPipeThread = class(TNamedThread)
- protected
+  TNamedPipeThread = class(TThread)
+  protected
    FNamedPipe: TNamedPipe;
    FMemo: TMemo;
    FMessage: WideString;
    procedure WriteMessage;
- public
+  public
    constructor Create(NamedPipe: TNamedPipe; Memo: TMemo);
    procedure Execute; override;
- end;
+  end;
 
 implementation
 
@@ -22,29 +22,29 @@ implementation
 
 constructor TNamedPipeThread.Create(NamedPipe: TNamedPipe; Memo: TMemo);
 begin
- inherited Create(True);
- FNamedPipe := NamedPipe;
- FMemo := Memo;
- FreeOnTerminate := True;
- Resume;
+  inherited Create(True);
+  FNamedPipe := NamedPipe;
+  FMemo := Memo;
+  FreeOnTerminate := True;
+  Resume;
 end;
 
 procedure TNamedPipeThread.Execute;
 begin
- SetName(ClassName);
- while not Terminated do
-  begin
-   if FNamedPipe.Connected then
+  NameThreadForDebugging(ClassName);    // System.Classes
+  while not Terminated do
     begin
-     FNamedPipe.Read(FMessage);
-     Synchronize(WriteMessage);
+      if FNamedPipe.Connected then
+        begin
+          FNamedPipe.Read(FMessage);
+          Synchronize(WriteMessage);
+        end;
     end;
-  end;
 end;
 
 procedure TNamedPipeThread.WriteMessage;
 begin
- FMemo.Lines.Add(FMessage);
+  FMemo.Lines.Add(FMessage);
 end;
 
 end.

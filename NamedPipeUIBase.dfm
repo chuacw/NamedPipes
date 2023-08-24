@@ -1,110 +1,168 @@
 object frmNamedPipeBase: TfrmNamedPipeBase
   Left = 115
   Top = 174
-  Width = 525
-  Height = 296
   Caption = 'Named Pipe Server'
+  ClientHeight = 520
+  ClientWidth = 1233
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
+  Font.Height = -28
   Font.Name = 'MS Sans Serif'
   Font.Style = []
-  OldCreateOrder = False
-  PixelsPerInch = 96
-  TextHeight = 13
+  PixelsPerInch = 240
+  TextHeight = 32
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 517
-    Height = 147
+    Width = 1233
+    Height = 368
+    Margins.Left = 8
+    Margins.Top = 8
+    Margins.Right = 8
+    Margins.Bottom = 8
     Align = alTop
     Anchors = [akLeft, akTop, akRight, akBottom]
     Caption = 'Named Pipe Details'
     TabOrder = 0
     DesignSize = (
-      517
-      147)
+      1233
+      368)
     object leServer: TLabeledEdit
-      Left = 12
-      Top = 28
-      Width = 121
-      Height = 21
-      EditLabel.Width = 31
-      EditLabel.Height = 13
+      Left = 30
+      Top = 70
+      Width = 303
+      Height = 40
+      Margins.Left = 8
+      Margins.Top = 8
+      Margins.Right = 8
+      Margins.Bottom = 8
+      EditLabel.Width = 80
+      EditLabel.Height = 32
+      EditLabel.Margins.Left = 8
+      EditLabel.Margins.Top = 8
+      EditLabel.Margins.Right = 8
+      EditLabel.Margins.Bottom = 8
       EditLabel.Caption = 'Server'
       TabOrder = 0
       Text = '.'
     end
     object lePipeName: TLabeledEdit
-      Left = 146
-      Top = 26
-      Width = 121
-      Height = 21
-      EditLabel.Width = 52
-      EditLabel.Height = 13
+      Left = 365
+      Top = 65
+      Width = 303
+      Height = 40
+      Margins.Left = 8
+      Margins.Top = 8
+      Margins.Right = 8
+      Margins.Bottom = 8
+      EditLabel.Width = 136
+      EditLabel.Height = 32
+      EditLabel.Margins.Left = 8
+      EditLabel.Margins.Top = 8
+      EditLabel.Margins.Right = 8
+      EditLabel.Margins.Bottom = 8
       EditLabel.Caption = 'Pipe Name'
       TabOrder = 1
       Text = 'NamedPipeDemo'
     end
     object btnConnect: TButton
-      Left = 432
-      Top = 28
-      Width = 75
-      Height = 25
+      Left = 1080
+      Top = 70
+      Width = 188
+      Height = 63
+      Margins.Left = 8
+      Margins.Top = 8
+      Margins.Right = 8
+      Margins.Bottom = 8
       Caption = 'Connect'
       Default = True
       TabOrder = 2
       OnClick = btnConnectClick
     end
     object leMessage: TLabeledEdit
-      Left = 4
-      Top = 120
-      Width = 511
-      Height = 21
+      Left = 10
+      Top = 300
+      Width = 1278
+      Height = 40
+      Margins.Left = 8
+      Margins.Top = 8
+      Margins.Right = 8
+      Margins.Bottom = 8
       Anchors = [akLeft, akTop, akRight, akBottom]
-      EditLabel.Width = 43
-      EditLabel.Height = 13
+      EditLabel.Width = 114
+      EditLabel.Height = 32
+      EditLabel.Margins.Left = 8
+      EditLabel.Margins.Top = 8
+      EditLabel.Margins.Right = 8
+      EditLabel.Margins.Bottom = 8
       EditLabel.Caption = 'Message'
       TabOrder = 3
+      Text = ''
     end
     object btnSendMessage: TButton
-      Left = 328
-      Top = 28
-      Width = 75
-      Height = 25
+      Left = 820
+      Top = 70
+      Width = 188
+      Height = 63
+      Margins.Left = 8
+      Margins.Top = 8
+      Margins.Right = 8
+      Margins.Bottom = 8
       Caption = 'Send'
       Enabled = False
       TabOrder = 4
       OnClick = btnSendMessageClick
     end
     object LabeledEdit1: TLabeledEdit
-      Left = 12
-      Top = 72
-      Width = 121
-      Height = 21
-      EditLabel.Width = 71
-      EditLabel.Height = 13
+      Left = 30
+      Top = 180
+      Width = 303
+      Height = 40
+      Margins.Left = 8
+      Margins.Top = 8
+      Margins.Right = 8
+      Margins.Bottom = 8
+      EditLabel.Width = 182
+      EditLabel.Height = 32
+      EditLabel.Margins.Left = 8
+      EditLabel.Margins.Top = 8
+      EditLabel.Margins.Right = 8
+      EditLabel.Margins.Bottom = 8
       EditLabel.Caption = 'NT User Name'
       TabOrder = 5
+      Text = ''
     end
     object LabeledEdit2: TLabeledEdit
-      Left = 146
-      Top = 72
-      Width = 121
-      Height = 21
-      EditLabel.Width = 89
-      EditLabel.Height = 13
+      Left = 365
+      Top = 180
+      Width = 303
+      Height = 40
+      Margins.Left = 8
+      Margins.Top = 8
+      Margins.Right = 8
+      Margins.Bottom = 8
+      EditLabel.Width = 228
+      EditLabel.Height = 32
+      EditLabel.Margins.Left = 8
+      EditLabel.Margins.Top = 8
+      EditLabel.Margins.Right = 8
+      EditLabel.Margins.Bottom = 8
       EditLabel.Caption = 'NT User Password'
       PasswordChar = '*'
       TabOrder = 6
+      Text = ''
     end
   end
   object memoServer: TMemo
     Left = 0
-    Top = 147
-    Width = 517
-    Height = 122
+    Top = 368
+    Width = 1233
+    Height = 152
+    Margins.Left = 8
+    Margins.Top = 8
+    Margins.Right = 8
+    Margins.Bottom = 8
     Align = alClient
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 1
