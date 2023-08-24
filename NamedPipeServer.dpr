@@ -2,7 +2,6 @@ program NamedPipeServer;
 
 uses
   Forms,
-  DebugThreadSupport in '..\..\Library\DebugThreadSupport.pas',
   NamedPipesImpl in 'NamedPipesImpl.pas',
   NamedPipeUIBase in 'NamedPipeUIBase.pas' {frmNamedPipeBase},
   NamedPipeThreads in 'NamedPipeThreads.pas',
