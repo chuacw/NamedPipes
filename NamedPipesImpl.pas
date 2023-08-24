@@ -12,6 +12,12 @@ type
 
   TError = procedure (const Msg: string) of object;
 
+  TNamedPipeUser = type string;
+  TNamedPipeServerName = type string;
+  TNamedPipeMessage = type string;
+  TNamedPipeName = type string;
+  TNamedPipePassword = type string;
+
   TNamedPipe = class
   private
     FError: Cardinal;
@@ -25,8 +31,12 @@ type
 
     FConnectEvent, FReadEvent, FWriteEvent: TEvent;
     FConnectOverlapped, FReadOverlapped, FWriteOverlapped: TOverlapped;
-    FName, FMessage, FServer, FPipeName,
-    FUserName, FPassword: WideString;
+    FName: string;
+    FMessage: TNamedPipeMessage;
+    FServer: TNamedPipeServerName;
+    FPipeName: TNamedPipeName;
+    FUserName: TNamedPipeUser;
+    FPassword: TNamedPipePassword;
     FHandle: THandle;
     FTimeOut: Cardinal;
     FPending: Boolean;
@@ -40,18 +50,18 @@ type
     property Error: Cardinal read FError write SetError;
 
   public
-    constructor Create(const PipeName: WideString;
-      const Server: WideString = NamedPipeLocalHost);
+    constructor Create(const PipeName: TNamedPipeName;
+      const Server: TNamedPipeServerName = NamedPipeLocalHost);
     destructor Destroy; override;
 
     procedure CheckConnected; virtual; abstract;
-    function Open(const UserName: WideString='';
-                  const Password: WideString=''): Boolean; virtual;
+    function Open(const UserName: TNamedPipeUser ='';
+                  const Password: TNamedPipePassword =''): Boolean; virtual;
     procedure Close;
 
-    function Read: WideString; overload;
-    procedure Read(var Buffer: WideString); overload;
-    procedure Write(const Message: WideString); virtual;
+    function Read: TNamedPipeMessage; overload;
+    procedure Read(var Buffer: TNamedPipeMessage); overload;
+    procedure Write(const Message: TNamedPipeMessage); virtual;
 
     procedure Connect; virtual; abstract;
     procedure Disconnect; virtual;
@@ -69,8 +79,8 @@ type
   public
     procedure CheckConnected; override;
     procedure Connect; override;
-    function Open(const UserName: WideString='';
-                  const Password: WideString=''): Boolean; override;
+    function Open(const UserName: TNamedPipeUser ='';
+                  const Password: TNamedPipePassword =''): Boolean; override;
   end;
 
   TNamedPipeClient = class(TNamedPipe)
@@ -79,8 +89,8 @@ type
   public
     procedure CheckConnected; override;
     procedure Connect; override;
-    function Open(const UserName: WideString='';
-                  const Password: WideString=''): Boolean; override;
+    function Open(const UserName: TNamedPipeUser ='';
+                  const Password: TNamedPipePassword =''): Boolean; override;
   end;
 
   ENamedPipe = class(Exception)
@@ -88,7 +98,8 @@ type
 
  TNamedPipeClass = class of TNamedPipe;
 
-var NamedPipeClass: TNamedPipeClass;
+var
+  NamedPipeClass: TNamedPipeClass;
 
 implementation
 
@@ -150,12 +161,12 @@ begin
    NetLogoff(FServer, FUserName, FPassword);
 end;
 
-constructor TNamedPipe.Create(const PipeName, Server: WideString);
+constructor TNamedPipe.Create(const PipeName: TNamedPipeName; const Server: TNamedPipeServerName);
 begin
   FName := ClassName;
   FPipeName := PipeName;
   FServer := Server;
-  FTimeOut := 10000; // 1000 = 1 sec
+  FTimeOut := 100; // 1000 = 1 sec
 end;
 
 procedure TNamedPipe.CreateEvents;
@@ -189,7 +200,7 @@ begin
   Result := False;
   if not GetOverlappedResult(Handle, FConnectOverlapped, Dummy, False) then
     Error := GetLastError else
-  case FConnectEvent.WaitFor(0)of
+  case FConnectEvent.WaitFor(0) of
     wrTimeout:
       FPending := False;
     wrSignaled:
@@ -209,12 +220,12 @@ begin
   Result := Format('\\%s\pipe\%s', [FServer, FPipeName]);
 end;
 
-function TNamedPipe.Read: WideString;
+function TNamedPipe.Read: TNamedPipeMessage;
 begin
   Read(Result);
 end;
 
-function TNamedPipe.Open(const UserName, Password: WideString): Boolean;
+function TNamedPipe.Open(const UserName: TNamedPipeUser; const Password: TNamedPipePassword): Boolean;
 var
   ErrorMessage: string;
 begin
@@ -225,7 +236,7 @@ begin
   Result := NetLogon(FServer, FUserName, FPassword, ErrorMessage);
 end;
 
-procedure TNamedPipe.Read(var Buffer: WideString);
+procedure TNamedPipe.Read(var Buffer: TNamedPipeMessage);
 var
   ToReadSize, ReadSize: Cardinal;
 begin
@@ -247,7 +258,7 @@ begin
   FReadEvent.ResetEvent;
 end;
 
-procedure TNamedPipe.Write(const Message: WideString);
+procedure TNamedPipe.Write(const Message: TNamedPipeMessage);
 var
   Temp: string;
   Error, WriteSize, WrittenSize: Cardinal;
@@ -273,14 +284,14 @@ procedure TNamedPipe.SetError(const Value: Cardinal);
 begin
   FError := Value;
   case Value of
-   ERROR_PIPE_CONNECTED: FConnectEvent.SetEvent;
-   ERROR_IO_PENDING: FPending := True;
-   ERROR_IO_INCOMPLETE:  ;
-   ERROR_BROKEN_PIPE:
-    begin
-     Close;
-     Open;
-    end;
+    ERROR_PIPE_CONNECTED: FConnectEvent.SetEvent;
+    ERROR_IO_PENDING: FPending := True;
+    ERROR_IO_INCOMPLETE:  ;
+    ERROR_BROKEN_PIPE:
+      begin
+        Close;
+        Open;
+      end;
   end;
 end;
 
@@ -325,8 +336,8 @@ begin
   end;
 end;
 
-function TNamedPipeClient.Open(const UserName: WideString='';
-  const Password: WideString=''): Boolean; 
+function TNamedPipeClient.Open(const UserName: TNamedPipeUser ='';
+  const Password: TNamedPipePassword =''): Boolean;
 begin
   inherited Open(UserName, Password);
   if WaitNamedPipeW(PWideChar(PipeName), NMPWAIT_USE_DEFAULT_WAIT) then
@@ -373,7 +384,7 @@ begin
   FSA.lpSecurityDescriptor := @FSD;
   FSA.bInheritHandle := True;
 
-  FHandle := CreateNamedPipeW(PWideChar(PipeName),
+  FHandle := CreateNamedPipe(PChar(PipeName),
     PIPE_ACCESS_DUPLEX or FILE_FLAG_OVERLAPPED,
     PIPE_TYPE_MESSAGE or PIPE_READMODE_MESSAGE or
     PIPE_WAIT, PIPE_UNLIMITED_INSTANCES,
@@ -389,8 +400,8 @@ begin
     end;  
 end;
 
-function TNamedPipeServer.Open(const UserName: WideString='';
-  const Password: WideString=''): Boolean;
+function TNamedPipeServer.Open(const UserName: TNamedPipeUser ='';
+  const Password: TNamedPipePassword =''): Boolean;
 begin
   inherited Open(UserName, Password);
   CreateHandle;

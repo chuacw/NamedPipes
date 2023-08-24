@@ -1,6 +1,6 @@
 object frmNamedPipeBase: TfrmNamedPipeBase
-  Left = 115
-  Top = 174
+  Left = 129
+  Top = 179
   Caption = 'Named Pipe Server'
   ClientHeight = 520
   ClientWidth = 1303
@@ -10,6 +10,8 @@ object frmNamedPipeBase: TfrmNamedPipeBase
   Font.Height = -28
   Font.Name = 'MS Sans Serif'
   Font.Style = []
+  Position = poDesigned
+  OnClose = FormClose
   PixelsPerInch = 240
   TextHeight = 32
   object GroupBox1: TGroupBox
@@ -25,7 +27,7 @@ object frmNamedPipeBase: TfrmNamedPipeBase
     Anchors = [akLeft, akTop, akRight, akBottom]
     Caption = 'Named Pipe Details'
     TabOrder = 0
-    ExplicitWidth = 1213
+    ExplicitWidth = 1283
     ExplicitHeight = 366
     DesignSize = (
       1303
@@ -101,7 +103,7 @@ object frmNamedPipeBase: TfrmNamedPipeBase
       EditLabel.Caption = 'Message'
       TabOrder = 3
       Text = ''
-      ExplicitWidth = 1238
+      ExplicitWidth = 1308
       ExplicitHeight = 40
     end
     object btnSendMessage: TButton
@@ -171,6 +173,6 @@ object frmNamedPipeBase: TfrmNamedPipeBase
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 1
     ExplicitTop = 366
-    ExplicitWidth = 1213
+    ExplicitWidth = 1283
   end
 end

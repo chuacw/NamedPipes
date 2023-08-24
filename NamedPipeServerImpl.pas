@@ -19,10 +19,11 @@ var
 
 implementation
 
-uses NamedPipesImpl;
+uses
+  NamedPipesImpl;
 
 {$R *.dfm}
 
 initialization
- NamedPipeClass := TNamedPipeServer;
+  NamedPipeClass := TNamedPipeServer;
 end.

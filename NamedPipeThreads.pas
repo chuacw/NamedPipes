@@ -8,7 +8,7 @@ type
   protected
     FNamedPipe: TNamedPipe;
     FMemo: TMemo;
-    FMessage: WideString;
+    FMessage: TNamedPipeMessage;
     procedure WriteMessage;
   public
     constructor Create(NamedPipe: TNamedPipe; Memo: TMemo);
@@ -25,7 +25,7 @@ begin
   inherited Create(True);
   FNamedPipe := NamedPipe;
   FMemo := Memo;
-  FreeOnTerminate := True;
+  FreeOnTerminate := False;
   Resume;
 end;
 

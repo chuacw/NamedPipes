@@ -19,9 +19,11 @@ type
     LabeledEdit2: TLabeledEdit;
     procedure btnConnectClick(Sender: TObject);
     procedure btnSendMessageClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   protected
     { Private declarations }
     NamedPipe: TNamedPipe;
+    FThread: TThread;
   public
     { Public declarations }
   end;
@@ -31,7 +33,8 @@ var
 
 implementation
 
-uses NamedPipeThreads;
+uses
+  NamedPipeThreads;
 
 {$R *.dfm}
 
@@ -47,7 +50,7 @@ begin
       btnSendMessage.Default := True;
       btnSendMessage.Enabled := True;
       btnConnect.Default := False;
-      TNamedPipeThread.Create(NamedPipe, memoServer);
+      FThread := TNamedPipeThread.Create(NamedPipe, memoServer);
     end else
     begin
       ShowMessage('Unable to connect to server! Activate server first!');
@@ -64,6 +67,14 @@ begin
     begin
       ShowMessage('Named Pipe not opened');
     end;
+end;
+
+procedure TfrmNamedPipeBase.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FThread.Terminate;
+  FThread.WaitFor;
+  FreeAndNil(FThread);
+  FreeAndNil(NamedPipe);
 end;
 
 end.

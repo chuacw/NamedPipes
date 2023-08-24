@@ -19,7 +19,8 @@ var
 
 implementation
 
-uses NamedPipesImpl;
+uses
+  NamedPipesImpl;
 
 {$R *.dfm}
 
