@@ -6,7 +6,7 @@ form inheritance, overlapped I/O, and synchronization events.
 To run the demo
 ---------------
 
-1. Run the NamedPipeServer on a Windows NT/2000/2003 machine.
+1. Run the NamedPipeServer on a Windows ~~NT/2000/2003~~ Server 2022 machine.
 2. Run the NamedPipeClient on another client machine, also a Windows NT/2000/2003 machine.
 
 NB: The machines in 1 and 2 can be the same machine.

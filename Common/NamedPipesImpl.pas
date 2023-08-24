@@ -84,8 +84,8 @@ type
   public
     procedure CheckConnected; override;
     procedure Connect; override;
-    function Open(const UserName: TNamedPipeUser ='';
-                  const Password: TNamedPipePassword =''): Boolean; override;
+    function Open(const UserName: TNamedPipeUser = '';
+                  const Password: TNamedPipePassword = ''): Boolean; override;
   end;
 
   TNamedPipeClient = class(TNamedPipe)
@@ -94,8 +94,8 @@ type
   public
     procedure CheckConnected; override;
     procedure Connect; override;
-    function Open(const UserName: TNamedPipeUser ='';
-                  const Password: TNamedPipePassword =''): Boolean; override;
+    function Open(const UserName: TNamedPipeUser = '';
+                  const Password: TNamedPipePassword = ''): Boolean; override;
   end;
 
   ENamedPipe = class(Exception)
@@ -204,13 +204,21 @@ var
  Dummy: Cardinal;
 begin
   Result := False;
-  if not GetOverlappedResult(Handle, FConnectOverlapped, Dummy, False) then
-    Error := GetLastError else
-  case FConnectEvent.WaitFor(0) of
-    wrTimeout:
-      FPending := False;
-    wrSignaled:
-      Result := True;
+  try
+    if not GetOverlappedResult(Handle, FConnectOverlapped, Dummy, False) then
+      Error := GetLastError else
+    if Assigned(FConnectEvent) then
+      begin
+        case FConnectEvent.WaitFor(0) of
+          wrTimeout:
+            FPending := False;
+          wrSignaled:
+            Result := True;
+        end;
+      end;
+  except
+    // Silent exception, in case FConnectEvent is not assigned
+    // This occurs in CreateHandle, where CreateNamedPipe's call fails
   end;
 end;
 

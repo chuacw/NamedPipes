@@ -2,7 +2,7 @@ object frmNamedPipeBase: TfrmNamedPipeBase
   Left = 129
   Top = 179
   Caption = 'Named Pipe Server'
-  ClientHeight = 520
+  ClientHeight = 598
   ClientWidth = 1303
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -18,20 +18,18 @@ object frmNamedPipeBase: TfrmNamedPipeBase
     Left = 0
     Top = 0
     Width = 1303
-    Height = 368
+    Height = 351
     Margins.Left = 8
     Margins.Top = 8
     Margins.Right = 8
     Margins.Bottom = 8
     Align = alTop
-    Anchors = [akLeft, akTop, akRight, akBottom]
     Caption = 'Named Pipe Details'
     TabOrder = 0
-    ExplicitWidth = 1283
-    ExplicitHeight = 366
+    ExplicitHeight = 361
     DesignSize = (
       1303
-      368)
+      351)
     object leServer: TLabeledEdit
       Left = 30
       Top = 70
@@ -87,13 +85,13 @@ object frmNamedPipeBase: TfrmNamedPipeBase
     object leMessage: TLabeledEdit
       Left = 10
       Top = 300
-      Width = 1328
+      Width = 1308
       Height = 42
       Margins.Left = 8
       Margins.Top = 8
       Margins.Right = 8
       Margins.Bottom = 8
-      Anchors = [akLeft, akTop, akRight, akBottom]
+      Anchors = [akLeft, akTop, akRight]
       EditLabel.Width = 114
       EditLabel.Height = 32
       EditLabel.Margins.Left = 8
@@ -103,8 +101,7 @@ object frmNamedPipeBase: TfrmNamedPipeBase
       EditLabel.Caption = 'Message'
       TabOrder = 3
       Text = ''
-      ExplicitWidth = 1308
-      ExplicitHeight = 40
+      ExplicitWidth = 1288
     end
     object btnSendMessage: TButton
       Left = 820
@@ -162,17 +159,18 @@ object frmNamedPipeBase: TfrmNamedPipeBase
   end
   object memoServer: TMemo
     Left = 0
-    Top = 368
+    Top = 351
     Width = 1303
-    Height = 152
+    Height = 247
     Margins.Left = 8
     Margins.Top = 8
     Margins.Right = 8
     Margins.Bottom = 8
     Align = alClient
-    Anchors = [akLeft, akTop, akRight]
+    ScrollBars = ssBoth
     TabOrder = 1
     ExplicitTop = 366
     ExplicitWidth = 1283
+    ExplicitHeight = 152
   end
 end
