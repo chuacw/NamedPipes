@@ -1,184 +1,21 @@
 inherited frmNamedPipeClient: TfrmNamedPipeClient
-  Left = 17
-  Top = 11
   Caption = 'Named Pipe Client'
-  ClientHeight = 1238
-  ClientWidth = 3295
-  Font.Height = -70
-  ExplicitLeft = -1247
-  ExplicitTop = -41
-  ExplicitWidth = 3307
-  ExplicitHeight = 1324
-  PixelsPerInch = 240
-  TextHeight = 87
   inherited GroupBox1: TGroupBox
-    Width = 3295
-    Height = 858
-    Margins.Left = 20
-    Margins.Top = 20
-    Margins.Right = 20
-    Margins.Bottom = 20
-    ExplicitWidth = 3275
-    ExplicitHeight = 856
     inherited leServer: TLabeledEdit
-      Left = 75
-      Top = 175
-      Width = 758
-      Height = 95
-      Margins.Left = 20
-      Margins.Top = 20
-      Margins.Right = 20
-      Margins.Bottom = 20
-      EditLabel.Width = 213
-      EditLabel.Height = 87
-      EditLabel.Margins.Left = 20
-      EditLabel.Margins.Top = 20
-      EditLabel.Margins.Right = 20
-      EditLabel.Margins.Bottom = 20
-      EditLabel.ExplicitLeft = 75
-      EditLabel.ExplicitTop = 80
-      EditLabel.ExplicitWidth = 213
-      EditLabel.ExplicitHeight = 87
-      ExplicitLeft = 75
-      ExplicitTop = 175
-      ExplicitWidth = 758
-      ExplicitHeight = 95
     end
     inherited lePipeName: TLabeledEdit
-      Left = 913
-      Top = 163
-      Width = 757
-      Height = 95
-      Margins.Left = 20
-      Margins.Top = 20
-      Margins.Right = 20
-      Margins.Bottom = 20
-      EditLabel.Width = 363
-      EditLabel.Height = 87
-      EditLabel.Margins.Left = 20
-      EditLabel.Margins.Top = 20
-      EditLabel.Margins.Right = 20
-      EditLabel.Margins.Bottom = 20
-      EditLabel.ExplicitLeft = 913
-      EditLabel.ExplicitTop = 68
-      EditLabel.ExplicitWidth = 363
-      EditLabel.ExplicitHeight = 87
-      ExplicitLeft = 913
-      ExplicitTop = 163
-      ExplicitWidth = 757
-      ExplicitHeight = 95
     end
     inherited btnConnect: TButton
-      Left = 2700
-      Top = 175
-      Width = 470
-      Height = 158
-      Margins.Left = 20
-      Margins.Top = 20
-      Margins.Right = 20
-      Margins.Bottom = 20
-      ExplicitLeft = 2700
-      ExplicitTop = 175
-      ExplicitWidth = 470
-      ExplicitHeight = 158
     end
     inherited leMessage: TLabeledEdit
-      Left = 25
-      Top = 750
-      Width = 3358
-      Height = 97
-      Margins.Left = 20
-      Margins.Top = 20
-      Margins.Right = 20
-      Margins.Bottom = 20
-      EditLabel.Width = 297
-      EditLabel.Height = 87
-      EditLabel.Margins.Left = 20
-      EditLabel.Margins.Top = 20
-      EditLabel.Margins.Right = 20
-      EditLabel.Margins.Bottom = 20
-      EditLabel.ExplicitLeft = 25
-      EditLabel.ExplicitTop = 655
-      EditLabel.ExplicitWidth = 297
-      EditLabel.ExplicitHeight = 87
-      ExplicitLeft = 25
-      ExplicitTop = 750
-      ExplicitWidth = 3338
-      ExplicitHeight = 95
     end
     inherited btnSendMessage: TButton
-      Left = 2050
-      Top = 175
-      Width = 470
-      Height = 158
-      Margins.Left = 20
-      Margins.Top = 20
-      Margins.Right = 20
-      Margins.Bottom = 20
-      ExplicitLeft = 2050
-      ExplicitTop = 175
-      ExplicitWidth = 470
-      ExplicitHeight = 158
     end
     inherited LabeledEdit1: TLabeledEdit
-      Left = 75
-      Top = 450
-      Width = 758
-      Height = 95
-      Margins.Left = 20
-      Margins.Top = 20
-      Margins.Right = 20
-      Margins.Bottom = 20
-      EditLabel.Width = 486
-      EditLabel.Height = 87
-      EditLabel.Margins.Left = 20
-      EditLabel.Margins.Top = 20
-      EditLabel.Margins.Right = 20
-      EditLabel.Margins.Bottom = 20
-      EditLabel.ExplicitLeft = 75
-      EditLabel.ExplicitTop = 355
-      EditLabel.ExplicitWidth = 486
-      EditLabel.ExplicitHeight = 87
-      ExplicitLeft = 75
-      ExplicitTop = 450
-      ExplicitWidth = 758
-      ExplicitHeight = 95
     end
     inherited LabeledEdit2: TLabeledEdit
-      Left = 913
-      Top = 450
-      Width = 757
-      Height = 95
-      Margins.Left = 20
-      Margins.Top = 20
-      Margins.Right = 20
-      Margins.Bottom = 20
-      EditLabel.Width = 612
-      EditLabel.Height = 87
-      EditLabel.Margins.Left = 20
-      EditLabel.Margins.Top = 20
-      EditLabel.Margins.Right = 20
-      EditLabel.Margins.Bottom = 20
-      EditLabel.ExplicitLeft = 913
-      EditLabel.ExplicitTop = 355
-      EditLabel.ExplicitWidth = 612
-      EditLabel.ExplicitHeight = 87
-      ExplicitLeft = 913
-      ExplicitTop = 450
-      ExplicitWidth = 757
-      ExplicitHeight = 95
     end
   end
   inherited memoServer: TMemo
-    Top = 858
-    Width = 3295
-    Height = 380
-    Margins.Left = 20
-    Margins.Top = 20
-    Margins.Right = 20
-    Margins.Bottom = 20
-    ExplicitTop = 856
-    ExplicitWidth = 3275
-    ExplicitHeight = 380
   end
 end
