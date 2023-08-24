@@ -1,7 +1,9 @@
 unit NamedPipeThreads;
 
 interface
-uses Classes, StdCtrls, NamedPipesImpl;
+
+uses
+  System.Classes, Vcl.StdCtrls, NamedPipesImpl;
 
 type
   TNamedPipeThread = class(TThread)
@@ -26,7 +28,7 @@ begin
   FNamedPipe := NamedPipe;
   FMemo := Memo;
   FreeOnTerminate := False;
-  Resume;
+  Start;
 end;
 
 procedure TNamedPipeThread.Execute;

@@ -71,8 +71,11 @@ end;
 
 procedure TfrmNamedPipeBase.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  FThread.Terminate;
-  FThread.WaitFor;
+  if Assigned(FThread) then
+    begin
+      FThread.Terminate;
+      FThread.WaitFor;
+    end;
   FreeAndNil(FThread);
   FreeAndNil(NamedPipe);
 end;

@@ -3,8 +3,9 @@ unit NamedPipeClientImpl;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, NamedPipeUIBase, StdCtrls, ExtCtrls, Vcl.Mask;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms,
+  Vcl.Dialogs, NamedPipeUIBase, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Mask;
 
 type
   TfrmNamedPipeClient = class(TfrmNamedPipeBase)

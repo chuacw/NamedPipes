@@ -1,7 +1,9 @@
 unit NamedPipesImpl;
 
 interface
-uses SyncObjs, Windows, SysUtils;
+
+uses
+  SyncObjs, Windows, SysUtils;
 
 const
   NamedPipeLocalHost = '.';
@@ -22,7 +24,7 @@ type
   private
     FError: Cardinal;
     FOnError: TError;
-    function GetPipeName: WideString;
+    function GetPipeName: TNamedPipeName;
     function GetConnected: Boolean;
     procedure SetError(const Value: Cardinal);
   protected
@@ -46,7 +48,7 @@ type
     procedure DoError(const Msg: string); virtual;
 
     procedure CreateEvents;
-    property PipeName: WideString read GetPipeName;
+    property PipeName: TNamedPipeName read GetPipeName;
     property Error: Cardinal read FError write SetError;
 
   public
@@ -215,7 +217,7 @@ begin
   Result := FHandle;
 end;
 
-function TNamedPipe.GetPipeName: WideString;
+function TNamedPipe.GetPipeName: TNamedPipeName;
 begin
   Result := Format('\\%s\pipe\%s', [FServer, FPipeName]);
 end;
