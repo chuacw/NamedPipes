@@ -1,5 +1,6 @@
 inherited frmNamedPipeClient: TfrmNamedPipeClient
-  Left = 145
+  Left = 839
+  Top = 455
   Caption = 'Named Pipe Client'
   StyleElements = [seFont, seClient, seBorder]
   ExplicitLeft = 2
@@ -14,9 +15,9 @@ inherited frmNamedPipeClient: TfrmNamedPipeClient
       StyleElements = [seFont, seClient, seBorder]
     end
     inherited leMessage: TLabeledEdit
-      Width = 1308
+      Width = 1288
       StyleElements = [seFont, seClient, seBorder]
-      ExplicitWidth = 1288
+      ExplicitWidth = 1268
     end
     inherited LabeledEdit1: TLabeledEdit
       StyleElements = [seFont, seClient, seBorder]

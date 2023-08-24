@@ -9,8 +9,10 @@ uses
 
 type
   TfrmNamedPipeClient = class(TfrmNamedPipeBase)
+    procedure btnConnectClick(Sender: TObject);
   private
     { Private declarations }
+    procedure Disconnect(Sender: TObject);
   public
     { Public declarations }
   end;
@@ -24,6 +26,25 @@ uses
   NamedPipesImpl;
 
 {$R *.dfm}
+
+procedure TfrmNamedPipeClient.btnConnectClick(Sender: TObject);
+begin
+  inherited;
+  if NamedPipe.Connected then
+    begin
+      FSavedCaption := btnConnect.Caption;
+      FSavedOnClick := btnConnect.OnClick;
+      btnConnect.Caption := 'Disconnect';
+      btnConnect.OnClick := Disconnect;
+    end;
+end;
+
+procedure TfrmNamedPipeClient.Disconnect(Sender: TObject);
+begin
+  FreeAndNil(NamedPipe);
+  btnConnect.Caption := FSavedCaption;
+  btnConnect.OnClick := FSavedOnClick;
+end;
 
 initialization
   NamedPipeClass := TNamedPipeClient;

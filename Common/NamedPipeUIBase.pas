@@ -22,6 +22,9 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   protected
     { Private declarations }
+    FSavedCaption: string;
+    FSavedOnClick: TNotifyEvent;
+
     NamedPipe: TNamedPipe;
     FThread: TThread;
   public
@@ -51,6 +54,7 @@ begin
       btnSendMessage.Enabled := True;
       btnConnect.Default := False;
       FThread := TNamedPipeThread.Create(NamedPipe, memoServer);
+      FThread.Start;
     end else
     begin
       ShowMessage('Unable to connect to server! Activate server first!');
@@ -59,7 +63,7 @@ end;
 
 procedure TfrmNamedPipeBase.btnSendMessageClick(Sender: TObject);
 begin
-  if Assigned(NamedPipe) then
+  if Assigned(NamedPipe) and NamedPipe.Connected then
     begin
       NamedPipe.Write(leMessage.Text);
       leMessage.Text := '';

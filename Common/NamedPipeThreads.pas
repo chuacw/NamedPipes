@@ -13,7 +13,7 @@ type
     FMessage: TNamedPipeMessage;
     procedure WriteMessage;
   public
-    constructor Create(NamedPipe: TNamedPipe; Memo: TMemo);
+    constructor Create(ANamedPipe: TNamedPipe; AMemo: TMemo);
     procedure Execute; override;
   end;
 
@@ -22,13 +22,12 @@ implementation
 
 { TNamedPipeThread }
 
-constructor TNamedPipeThread.Create(NamedPipe: TNamedPipe; Memo: TMemo);
+constructor TNamedPipeThread.Create(ANamedPipe: TNamedPipe; AMemo: TMemo);
 begin
   inherited Create(True);
-  FNamedPipe := NamedPipe;
-  FMemo := Memo;
+  FNamedPipe := ANamedPipe;
+  FMemo := AMemo;
   FreeOnTerminate := False;
-  Start;
 end;
 
 procedure TNamedPipeThread.Execute;
@@ -38,8 +37,9 @@ begin
     begin
       if FNamedPipe.Connected then
         begin
-          FNamedPipe.Read(FMessage);
-          Synchronize(WriteMessage);
+          if FNamedPipe.Read(FMessage) then
+            Synchronize(WriteMessage);
+          Sleep(0);
         end;
     end;
 end;
@@ -47,6 +47,7 @@ end;
 procedure TNamedPipeThread.WriteMessage;
 begin
   FMemo.Lines.Add(FMessage);
+  FMessage := '';
 end;
 
 end.

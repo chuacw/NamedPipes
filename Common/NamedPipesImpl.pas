@@ -40,7 +40,7 @@ type
     FUserName: TNamedPipeUser;
     FPassword: TNamedPipePassword;
     FHandle: THandle;
-    FTimeOut: Cardinal;
+    FReadTimeout, FWriteTimeout, FConnectTimeout: Cardinal;
     FPending: Boolean;
     function GetHandle: THandle;
     procedure CreateHandle; virtual; abstract;
@@ -57,12 +57,12 @@ type
     destructor Destroy; override;
 
     procedure CheckConnected; virtual; abstract;
-    function Open(const UserName: TNamedPipeUser ='';
-                  const Password: TNamedPipePassword =''): Boolean; virtual;
+    function Open(const AUserName: TNamedPipeUser ='';
+                  const APassword: TNamedPipePassword =''): Boolean; virtual;
     procedure Close;
 
     function Read: TNamedPipeMessage; overload;
-    procedure Read(var Buffer: TNamedPipeMessage); overload;
+    function Read(var Buffer: TNamedPipeMessage): Boolean; overload;
     procedure Write(const Message: TNamedPipeMessage); virtual;
 
     procedure Connect; virtual; abstract;
@@ -70,7 +70,10 @@ type
 
     property Connected: Boolean read GetConnected;
     property Handle: THandle read GetHandle;
-    property TimeOut: Cardinal read FTimeOut write FTimeOut;
+
+    property ConnectTimeout: Cardinal read FConnectTimeout write FConnectTimeout;
+    property ReadTimeout: Cardinal read FReadTimeout write FReadTimeout;
+    property WriteTimeout: Cardinal read FWriteTimeout write FWriteTimeout;
 
     property OnError: TError read FOnError write FOnError;
   end;
@@ -105,7 +108,7 @@ var
 
 implementation
 
-function NetLogon(const Server, User, Password: WideString; out ErrorMessage: string): Boolean;
+function NetLogon(const Server, User, Password: string; out ErrorMessage: string): Boolean;
 var
   NR: TNetResourceW;
   Flags: DWord;
@@ -120,16 +123,16 @@ begin
   NR.lpRemoteName := PWideChar(ServerResource);
   NR.lpLocalName := nil;
   NR.lpProvider := nil;
-  Err := WNetAddConnection2W(NR, PWideChar(Password), PWideChar(User), Flags);
+  Err := WNetAddConnection2(NR, PChar(Password), PChar(User), Flags);
   if Err <> NO_ERROR then
     begin
       Err := GetLastError;
       ErrorMessage := SysErrorMessage(Err);
-    end;  
+    end;
   Result := Err = NO_ERROR;
 end;
 
-function NetLogoff(const Server, User, Password: WideString): Boolean;
+function NetLogoff(const Server, User, Password: string): Boolean;
 const
   FailIfOpenFilesorJobs = False;
 var
@@ -137,7 +140,7 @@ var
   Err: DWord;
 begin
   ServerResource := Format('\\%s', [Server]);
-  Err := WNetCancelConnection2W(PWideChar(ServerResource),
+  Err := WNetCancelConnection2(PChar(ServerResource),
                                 CONNECT_UPDATE_PROFILE,
                                 FailIfOpenFilesorJobs);
   Result := Err = NO_ERROR;
@@ -159,8 +162,8 @@ begin
   CloseHandle(FHandle);
   FHandle := 0;
   FPending := False;
-  if FServer<>NamedPipeLocalHost then
-   NetLogoff(FServer, FUserName, FPassword);
+  if FServer <> NamedPipeLocalHost then
+    NetLogoff(FServer, FUserName, FPassword);
 end;
 
 constructor TNamedPipe.Create(const PipeName: TNamedPipeName; const Server: TNamedPipeServerName);
@@ -168,7 +171,9 @@ begin
   FName := ClassName;
   FPipeName := PipeName;
   FServer := Server;
-  FTimeOut := 100; // 1000 = 1 sec
+  FReadTimeout := 100; // 1000 = 1 sec
+  FWriteTimeout := 100;
+  FConnectTimeout := 100;
 end;
 
 procedure TNamedPipe.CreateEvents;
@@ -227,20 +232,21 @@ begin
   Read(Result);
 end;
 
-function TNamedPipe.Open(const UserName: TNamedPipeUser; const Password: TNamedPipePassword): Boolean;
+function TNamedPipe.Open(const AUserName: TNamedPipeUser; const APassword: TNamedPipePassword): Boolean;
 var
-  ErrorMessage: string;
+  LErrorMessage: string;
 begin
   if FUserName = '' then
-    FUserName := UserName;
+    FUserName := AUserName;
   if FPassword = '' then
-    FPassword := Password;
-  Result := NetLogon(FServer, FUserName, FPassword, ErrorMessage);
+    FPassword := APassword;
+  Result := NetLogon(FServer, FUserName, FPassword, LErrorMessage);
 end;
 
-procedure TNamedPipe.Read(var Buffer: TNamedPipeMessage);
+function TNamedPipe.Read(var Buffer: TNamedPipeMessage): Boolean;
 var
   ToReadSize, ReadSize: Cardinal;
+  LReadWaitResult: TWaitResult;
 begin
   SetLength(Buffer, NamedPipeOutputBufferSize);
   ToReadSize := Length(Buffer) * SizeOf(Buffer[1]);
@@ -249,15 +255,20 @@ begin
     begin
       OutputDebugString(PChar(SysErrorMessage(GetLastError)));
     end;
-  FReadEvent.WaitFor(INFINITE);
+  LReadWaitResult := FReadEvent.WaitFor(FReadTimeout);
+  if LReadWaitResult = wrTimeout then
+    Exit(False);
   if ReadSize = 0 then
     begin
       if (not GetOverlappedResult(Handle, FReadOverlapped, ReadSize, True)) or
          (ReadSize = 0) then
        Error := GetLastError;
+       if ReadSize = 0 then
+          Exit(False);
     end;
   SetLength(Buffer, ReadSize div SizeOf(FMessage[1]));
   FReadEvent.ResetEvent;
+  Result := True;
 end;
 
 procedure TNamedPipe.Write(const Message: TNamedPipeMessage);
@@ -324,7 +335,7 @@ const
 var
   Mode: Cardinal;
 begin
-  FHandle := CreateFileW(PWideChar(PipeName), ReadWrite, FileShare, nil,
+  FHandle := CreateFile(PChar(PipeName), ReadWrite, FileShare, nil,
     OPEN_EXISTING, FileFlag, 0);
   Mode := GetLastError;
   FMessage := SysErrorMessage(Mode);
@@ -342,7 +353,7 @@ function TNamedPipeClient.Open(const UserName: TNamedPipeUser ='';
   const Password: TNamedPipePassword =''): Boolean;
 begin
   inherited Open(UserName, Password);
-  if WaitNamedPipeW(PWideChar(PipeName), NMPWAIT_USE_DEFAULT_WAIT) then
+  if WaitNamedPipe(PChar(PipeName), NMPWAIT_USE_DEFAULT_WAIT) then
     begin
       CreateHandle;
       Result := True;
@@ -391,7 +402,7 @@ begin
     PIPE_TYPE_MESSAGE or PIPE_READMODE_MESSAGE or
     PIPE_WAIT, PIPE_UNLIMITED_INSTANCES,
     NamedPipeOutputBufferSize,
-    NamedPipeInputBufferSize, FTimeOut,
+    NamedPipeInputBufferSize, FConnectTimeout,
     @FSA);
     
   if FHandle <> INVALID_HANDLE_VALUE then
