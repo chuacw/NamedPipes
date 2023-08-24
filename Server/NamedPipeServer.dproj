@@ -102,14 +102,15 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="NamedPipesImpl.pas"/>
-        <DCCReference Include="NamedPipeUIBase.pas">
-            <Form>frmNamedPipeBase</Form>
-        </DCCReference>
-        <DCCReference Include="NamedPipeThreads.pas"/>
         <DCCReference Include="NamedPipeServerImpl.pas">
             <Form>frmNamedPipeServer1</Form>
         </DCCReference>
+        <DCCReference Include="..\Common\NamedPipeUIBase.pas">
+            <Form>frmNamedPipeBase</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\Common\NamedPipesImpl.pas"/>
+        <DCCReference Include="..\Common\NamedPipeThreads.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -142,7 +143,7 @@
                 <Platform value="Win64">False</Platform>
             </Platforms>
             <Deployment Version="4">
-                <DeployFile LocalName="NamedPipeServer.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="Win32\Debug\NamedPipeServer.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>NamedPipeServer.exe</RemoteName>
                         <Overwrite>true</Overwrite>
