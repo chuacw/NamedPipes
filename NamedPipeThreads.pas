@@ -6,13 +6,13 @@ uses Classes, StdCtrls, NamedPipesImpl;
 type
   TNamedPipeThread = class(TThread)
   protected
-   FNamedPipe: TNamedPipe;
-   FMemo: TMemo;
-   FMessage: WideString;
-   procedure WriteMessage;
+    FNamedPipe: TNamedPipe;
+    FMemo: TMemo;
+    FMessage: WideString;
+    procedure WriteMessage;
   public
-   constructor Create(NamedPipe: TNamedPipe; Memo: TMemo);
-   procedure Execute; override;
+    constructor Create(NamedPipe: TNamedPipe; Memo: TMemo);
+    procedure Execute; override;
   end;
 
 implementation
@@ -31,7 +31,7 @@ end;
 
 procedure TNamedPipeThread.Execute;
 begin
-  NameThreadForDebugging(ClassName);    // System.Classes
+  NameThreadForDebugging(ClassName);
   while not Terminated do
     begin
       if FNamedPipe.Connected then

@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, NamedPipeUIBase, StdCtrls, ExtCtrls;
+  Dialogs, NamedPipeUIBase, StdCtrls, ExtCtrls, Vcl.Mask;
 
 type
   TfrmNamedPipeServer = class(TfrmNamedPipeBase)
