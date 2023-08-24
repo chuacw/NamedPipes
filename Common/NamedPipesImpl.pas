@@ -112,7 +112,7 @@ function NetLogon(const Server, User, Password: string; out ErrorMessage: string
 var
   NR: TNetResourceW;
   Flags: DWord;
-  ServerResource: WideString;
+  ServerResource: string;
   Err: DWord;
 begin
   Flags := 0;
@@ -120,7 +120,7 @@ begin
   NR.dwType := RESOURCETYPE_ANY;
   NR.dwDisplayType := RESOURCEDISPLAYTYPE_GENERIC;
   ServerResource := Format('\\%s', [Server]);
-  NR.lpRemoteName := PWideChar(ServerResource);
+  NR.lpRemoteName := PChar(ServerResource);
   NR.lpLocalName := nil;
   NR.lpProvider := nil;
   Err := WNetAddConnection2(NR, PChar(Password), PChar(User), Flags);
@@ -136,13 +136,12 @@ function NetLogoff(const Server, User, Password: string): Boolean;
 const
   FailIfOpenFilesorJobs = False;
 var
-  ServerResource: WideString;
+  ServerResource: string;
   Err: DWord;
 begin
   ServerResource := Format('\\%s', [Server]);
   Err := WNetCancelConnection2(PChar(ServerResource),
-                                CONNECT_UPDATE_PROFILE,
-                                FailIfOpenFilesorJobs);
+    CONNECT_UPDATE_PROFILE, FailIfOpenFilesorJobs);
   Result := Err = NO_ERROR;
 end;
 
