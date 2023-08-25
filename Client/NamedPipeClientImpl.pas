@@ -30,7 +30,7 @@ uses
 procedure TfrmNamedPipeClient.btnConnectClick(Sender: TObject);
 begin
   inherited;
-  if NamedPipe.Connected then
+  if FNamedPipe.Connected then
     begin
       FSavedCaption := btnConnect.Caption;
       FSavedOnClick := btnConnect.OnClick;
@@ -41,7 +41,7 @@ end;
 
 procedure TfrmNamedPipeClient.Disconnect(Sender: TObject);
 begin
-  FreeAndNil(NamedPipe);
+  FreeAndNil(FNamedPipe);
   btnConnect.Caption := FSavedCaption;
   btnConnect.OnClick := FSavedOnClick;
 end;

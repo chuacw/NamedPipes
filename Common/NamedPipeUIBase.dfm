@@ -18,7 +18,7 @@ object frmNamedPipeBase: TfrmNamedPipeBase
     Left = 0
     Top = 0
     Width = 1303
-    Height = 351
+    Height = 350
     Margins.Left = 8
     Margins.Top = 8
     Margins.Right = 8
@@ -26,10 +26,9 @@ object frmNamedPipeBase: TfrmNamedPipeBase
     Align = alTop
     Caption = 'Named Pipe Details'
     TabOrder = 0
-    ExplicitHeight = 361
     DesignSize = (
       1303
-      351)
+      350)
     object leServer: TLabeledEdit
       Left = 30
       Top = 70
@@ -41,10 +40,10 @@ object frmNamedPipeBase: TfrmNamedPipeBase
       Margins.Bottom = 8
       EditLabel.Width = 80
       EditLabel.Height = 32
-      EditLabel.Margins.Left = 8
-      EditLabel.Margins.Top = 8
-      EditLabel.Margins.Right = 8
-      EditLabel.Margins.Bottom = 8
+      EditLabel.Margins.Left = 20
+      EditLabel.Margins.Top = 20
+      EditLabel.Margins.Right = 20
+      EditLabel.Margins.Bottom = 20
       EditLabel.Caption = 'Server'
       TabOrder = 0
       Text = '.'
@@ -60,10 +59,10 @@ object frmNamedPipeBase: TfrmNamedPipeBase
       Margins.Bottom = 8
       EditLabel.Width = 136
       EditLabel.Height = 32
-      EditLabel.Margins.Left = 8
-      EditLabel.Margins.Top = 8
-      EditLabel.Margins.Right = 8
-      EditLabel.Margins.Bottom = 8
+      EditLabel.Margins.Left = 20
+      EditLabel.Margins.Top = 20
+      EditLabel.Margins.Right = 20
+      EditLabel.Margins.Bottom = 20
       EditLabel.Caption = 'Pipe Name'
       TabOrder = 1
       Text = 'NamedPipeDemo'
@@ -86,7 +85,7 @@ object frmNamedPipeBase: TfrmNamedPipeBase
       Left = 10
       Top = 300
       Width = 1308
-      Height = 42
+      Height = 40
       Margins.Left = 8
       Margins.Top = 8
       Margins.Right = 8
@@ -94,14 +93,13 @@ object frmNamedPipeBase: TfrmNamedPipeBase
       Anchors = [akLeft, akTop, akRight]
       EditLabel.Width = 114
       EditLabel.Height = 32
-      EditLabel.Margins.Left = 8
-      EditLabel.Margins.Top = 8
-      EditLabel.Margins.Right = 8
-      EditLabel.Margins.Bottom = 8
+      EditLabel.Margins.Left = 20
+      EditLabel.Margins.Top = 20
+      EditLabel.Margins.Right = 20
+      EditLabel.Margins.Bottom = 20
       EditLabel.Caption = 'Message'
       TabOrder = 3
       Text = ''
-      ExplicitWidth = 1288
     end
     object btnSendMessage: TButton
       Left = 820
@@ -128,10 +126,10 @@ object frmNamedPipeBase: TfrmNamedPipeBase
       Margins.Bottom = 8
       EditLabel.Width = 182
       EditLabel.Height = 32
-      EditLabel.Margins.Left = 8
-      EditLabel.Margins.Top = 8
-      EditLabel.Margins.Right = 8
-      EditLabel.Margins.Bottom = 8
+      EditLabel.Margins.Left = 20
+      EditLabel.Margins.Top = 20
+      EditLabel.Margins.Right = 20
+      EditLabel.Margins.Bottom = 20
       EditLabel.Caption = 'NT User Name'
       TabOrder = 5
       Text = ''
@@ -147,10 +145,10 @@ object frmNamedPipeBase: TfrmNamedPipeBase
       Margins.Bottom = 8
       EditLabel.Width = 228
       EditLabel.Height = 32
-      EditLabel.Margins.Left = 8
-      EditLabel.Margins.Top = 8
-      EditLabel.Margins.Right = 8
-      EditLabel.Margins.Bottom = 8
+      EditLabel.Margins.Left = 20
+      EditLabel.Margins.Top = 20
+      EditLabel.Margins.Right = 20
+      EditLabel.Margins.Bottom = 20
       EditLabel.Caption = 'NT User Password'
       PasswordChar = '*'
       TabOrder = 6
@@ -159,9 +157,9 @@ object frmNamedPipeBase: TfrmNamedPipeBase
   end
   object memoServer: TMemo
     Left = 0
-    Top = 351
+    Top = 350
     Width = 1303
-    Height = 247
+    Height = 248
     Margins.Left = 8
     Margins.Top = 8
     Margins.Right = 8
@@ -169,8 +167,5 @@ object frmNamedPipeBase: TfrmNamedPipeBase
     Align = alClient
     ScrollBars = ssBoth
     TabOrder = 1
-    ExplicitTop = 366
-    ExplicitWidth = 1283
-    ExplicitHeight = 152
   end
 end

@@ -21,6 +21,11 @@ type
 
 implementation
 
+uses
+  Winapi.Windows;
+
+function SetThreadDescription(threadHandle: THandle; pcwstr: PWideChar): HResult; stdcall;
+  external kernel32 name 'SetThreadDescription';
 
 { TNamedPipeThread }
 
@@ -43,7 +48,8 @@ procedure TNamedPipeThread.Execute;
 var
   LLast: Integer;
 begin
-  NameThreadForDebugging(ClassName);
+  NameThreadForDebugging(FNamedPipe.ClassName);
+  SetThreadDescription(GetCurrentThread, PChar(FNamedPipe.ClassName));
   while not Terminated do
     begin
       if FNamedPipe.Connected then

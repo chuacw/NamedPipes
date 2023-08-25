@@ -154,9 +154,9 @@ end;
 
 procedure TNamedPipe.Close;
 begin
-  FReadEvent.Free;
-  FWriteEvent.Free;
-  FConnectEvent.Free;
+  FreeAndNil(FReadEvent);
+  FreeAndNil(FWriteEvent);
+  FreeAndNil(FConnectEvent);
   Disconnect;
   CloseHandle(FHandle);
   FHandle := 0;
@@ -201,12 +201,18 @@ end;
 
 function TNamedPipe.GetConnected: Boolean;
 var
- Dummy: Cardinal;
+  Dummy: Cardinal;
+  LErrorMessage: string;
 begin
   Result := False;
   try
+    if FConnectEvent = nil then
+      Exit(False);
     if not GetOverlappedResult(Handle, FConnectOverlapped, Dummy, False) then
-      Error := GetLastError else
+      begin
+        Error := GetLastError;
+        LErrorMessage := SysErrorMessage(Error);
+      end else
     if Assigned(FConnectEvent) then
       begin
         case FConnectEvent.WaitFor(0) of
@@ -380,18 +386,20 @@ end;
 
 procedure TNamedPipeServer.Connect;
 var
- TempError: Cardinal;
+  LTempError: Cardinal;
 begin
   if not FPending then
     begin
-      FConnectEvent.ResetEvent;
-      DisconnectNamedPipe(Handle);
+      if Assigned(FConnectEvent) then
+        FConnectEvent.ResetEvent;
+      if Handle <> 0 then
+        DisconnectNamedPipe(Handle);
       if not ConnectNamedPipe(Handle, @FConnectOverlapped) then
         Error := GetLastError;
     end else
     begin
       if not GetOverlappedResult(Handle, FConnectOverlapped,
-                                 TempError, True) then
+                                 LTempError, True) then
         FPending := False;
     end;
 end;
@@ -407,11 +415,11 @@ begin
   FHandle := CreateNamedPipe(PChar(PipeName),
     PIPE_ACCESS_DUPLEX or FILE_FLAG_OVERLAPPED,
     PIPE_TYPE_MESSAGE or PIPE_READMODE_MESSAGE or
-    PIPE_WAIT, PIPE_UNLIMITED_INSTANCES,
+    PIPE_WAIT,
+    PIPE_UNLIMITED_INSTANCES,
     NamedPipeOutputBufferSize,
     NamedPipeInputBufferSize, FConnectTimeout,
-    @FSA);
-    
+    nil); // @FSA in 64-bit mode causes an error in creating the named pipe
   if FHandle <> INVALID_HANDLE_VALUE then
     CreateEvents else
     begin
