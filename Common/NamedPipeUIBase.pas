@@ -25,7 +25,7 @@ type
     FSavedCaption: string;
     FSavedOnClick: TNotifyEvent;
 
-    NamedPipe: TNamedPipe;
+    FNamedPipe: TNamedPipe;
     FThread: TThread;
   public
     { Public declarations }
@@ -43,17 +43,17 @@ uses
 
 procedure TfrmNamedPipeBase.btnConnectClick(Sender: TObject);
 begin
-  if not Assigned(NamedPipe) then
+  if not Assigned(FNamedPipe) then
     begin
-      NamedPipe := NamedPipeClass.Create(lePipeName.Text,
+      FNamedPipe := NamedPipeClass.Create(lePipeName.Text,
         leServer.Text);
     end;
-  if NamedPipe.Open then
+  if FNamedPipe.Open then
     begin
       btnSendMessage.Default := True;
       btnSendMessage.Enabled := True;
       btnConnect.Default := False;
-      FThread := TNamedPipeThread.Create(NamedPipe, memoServer);
+      FThread := TNamedPipeThread.Create(FNamedPipe, memoServer);
       FThread.Start;
     end else
     begin
@@ -63,9 +63,9 @@ end;
 
 procedure TfrmNamedPipeBase.btnSendMessageClick(Sender: TObject);
 begin
-  if Assigned(NamedPipe) and NamedPipe.Connected then
+  if Assigned(FNamedPipe) and FNamedPipe.Connected then
     begin
-      NamedPipe.Write(leMessage.Text);
+      FNamedPipe.Write(leMessage.Text);
       leMessage.Text := '';
     end else
     begin
@@ -81,7 +81,7 @@ begin
       FThread.WaitFor;
     end;
   FreeAndNil(FThread);
-  FreeAndNil(NamedPipe);
+  FreeAndNil(FNamedPipe);
 end;
 
 end.
